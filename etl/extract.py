@@ -58,13 +58,6 @@ def get_exchanges(per_page=50, page=1):
     return _make_request("/exchanges", params=params)
 
 
-def get_exchange_details(exchange_id):
-    """
-    /exchanges/{id} -> specific details of an exchange
-    """
-    return _make_request(f"/exchanges/{exchange_id}")
-
-
 # -----------------------
 # 4. OHLC
 # -----------------------
