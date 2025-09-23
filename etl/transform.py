@@ -144,34 +144,3 @@ def transform_coin_ohlc(raw_json, coin_id):
 
     return df[["coin_id", "timestamp", "open_price", "high_price", "low_price", "close_price"]]
 
-
-# -----------------------
-# 5. Trending Coins
-# -----------------------
-def transform_trending_coins(raw_json):
-    """
-    Transforma /search/trending en DataFrame
-    """
-    if raw_json is None:
-        return None
-    
-    coins = raw_json.get("coins", [])
-    flat_data = []
-    for c in coins:
-        item = c["item"]
-        flat_data.append({
-            "coin_id": item["id"],
-            "name": item["name"],
-            "symbol": item["symbol"],
-            "market_cap_rank": item["market_cap_rank"],
-            "image_url": item["thumb"],
-            "score": item["score"],
-            # No siempre están estos valores, se dejan como None
-            "current_price": None,
-            "price_change_percentage_24h": None,
-            "market_cap": None,
-            "total_volume": None
-        })
-    
-    df = pd.DataFrame(flat_data)
-    return df.replace({np.nan: None})

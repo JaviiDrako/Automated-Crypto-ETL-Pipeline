@@ -68,12 +68,3 @@ def get_coin_ohlc(coin_id, vs_currency="usd", days=30):
     params = {"vs_currency": vs_currency, "days": days}
     return _make_request(f"/coins/{coin_id}/ohlc", params=params)
 
-
-# -----------------------
-# 5. TRENDING COINS
-# -----------------------
-def get_trending_coins():
-    """
-    /search/treding -> top 15 tending coins on CoinGecko
-    """
-    return _make_request(f"/search/trending", params=None)
