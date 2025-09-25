@@ -30,7 +30,8 @@ def insert_dataframe(df: pd.DataFrame, table: str, conn, update=False):
     try:
         cursor.executemany(sql, df.values.tolist())
         conn.commit()
-        logging.info(f"[OK] Inserted {cursor.rowcount} rows into {table}")
+        action = "Upserted" if update else "Inserted"
+        logging.info(f"[OK] {action} {cursor.rowcount} rows into {table}")
     except Error as e:
         logging.error(f"[DB INSERT ERROR] {e} -> {table}")
         conn.rollback()

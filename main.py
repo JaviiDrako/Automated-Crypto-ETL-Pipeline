@@ -37,12 +37,19 @@ def get_db_connection():
         port=os.getenv("MYSQL_PORT")
     )
 
-def has_market_history(conn):
+def has_market_history_bootstrap(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM market_history")
     count = cursor.fetchone()[0]
     cursor.close()
     return count > 0
+
+def has_ohlc_botstrap(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM coin_ohlc")
+    count = cursor.fetchone()[0]
+    return count > 0
+
 
 def main():
     logging.info("🚀 Starting ETL pipeline...")
@@ -90,9 +97,13 @@ def main():
         # =====================
         # 3. Coin OHLC
         # =====================
+        bootstrap = not has_ohlc_botstrap(conn)
+
         for coin in coins:
             logging.info(f"📥 Extracting OHLC of {coin}...")
-            ohlc_raw = get_coin_ohlc(coin, vs_currency="usd", days=30)
+
+            days = 30 if bootstrap else 1
+            ohlc_raw = get_coin_ohlc(coin, vs_currency="usd", days=days)
             if ohlc_raw:
                 ohlc_df = transform_coin_ohlc(ohlc_raw, coin)
                 load_coin_ohlc(ohlc_df, conn)
@@ -101,7 +112,7 @@ def main():
         # =====================
         # 4. Market History (only once)
         # =====================
-        if not has_market_history(conn):
+        if not has_market_history_bootstrap(conn):
             for coin in coins:
                 logging.info(f"📥 Extracting market history of {coin}...")
                 history_raw = get_market_history(coin, vs_currency="usd", days="100")
