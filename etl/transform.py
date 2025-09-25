@@ -104,7 +104,7 @@ def transform_market_history(raw_json, coin_id):
 # -----------------------
 def transform_exchanges(raw_json):
     """
-    Transforma /exchanges en DataFrame
+    Transform JSON /exchanges into DataFrame
     """
     if raw_json is None:
         return None
@@ -130,8 +130,7 @@ def transform_exchanges(raw_json):
 # -----------------------
 def transform_coin_ohlc(raw_json, coin_id):
     """
-    Transforma /coins/{id}/ohlc en DataFrame con columnas:
-    timestamp, open, high, low, close
+    Transform JSON /coins/{id}/ohlc into DataFrame
     """
     if raw_json is None:
         return None
