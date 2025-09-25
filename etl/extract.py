@@ -1,5 +1,11 @@
 import requests
 import logging
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+API_KEY = os.getenv("COINGECKO_API_KEY")
 
 BASE_URL = "https://api.coingecko.com/api/v3"
 
@@ -7,8 +13,12 @@ BASE_URL = "https://api.coingecko.com/api/v3"
 def _make_request(endpoint, params=None):
     """Helper for requests with error handling."""
     url = f"{BASE_URL}{endpoint}"
+    headers = {}
+    if API_KEY:
+        headers["X-CoinGecko-Api-Key"] = API_KEY
+
     try:
-        resp = requests.get(url, params=params, timeout=15)
+        resp = requests.get(url, params=params, headers=headers, timeout=15)
         if resp.status_code == 200:
             return resp.json()
         elif resp.status_code == 429:
