@@ -6,7 +6,7 @@ import numpy as np
 # -----------------------
 def transform_coins_and_snapshots(raw_json):
     """
-    Transform the JSON from /coins/markets into two DataFrames:
+    Transforms the JSON from /coins/markets into two DataFrames:
     - coins_df: static info
     - snapshots_df: dynamic info
     """
@@ -75,7 +75,7 @@ def transform_coins_and_snapshots(raw_json):
 # -----------------------
 def transform_market_history(raw_json, coin_id):
     """
-    Transform the JSON from /coins/{id}/market_chart into a DataFrame:
+    Transforms the JSON from /coins/{id}/market_chart into a DataFrame:
     """
     if raw_json is None:
         return None
@@ -104,7 +104,7 @@ def transform_market_history(raw_json, coin_id):
 # -----------------------
 def transform_exchanges(raw_json):
     """
-    Transform JSON /exchanges into DataFrame
+    Transforms JSON /exchanges into DataFrame
     """
     if raw_json is None:
         return None
@@ -130,7 +130,7 @@ def transform_exchanges(raw_json):
 # -----------------------
 def transform_coin_ohlc(raw_json, coin_id):
     """
-    Transform JSON /coins/{id}/ohlc into DataFrame
+    Transforms JSON /coins/{id}/ohlc into DataFrame
     """
     if raw_json is None:
         return None
